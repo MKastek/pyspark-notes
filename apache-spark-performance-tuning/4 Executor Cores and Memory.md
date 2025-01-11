@@ -50,6 +50,27 @@ Data are spread accros multiple nodex - low data locality.
 ## How to size an optimal Executor
 1. Leave out 1 core, 1 GB RAM for Hadoop/Yarn/OS Daemons (per node)
 2. Leave out 1 executor or 1 core, 1 GB RAM for Application Master (per cluster)
-3. 3-5 task per executor
-4. Executor memory should exlude memory overhead (internal system processes) - max. 10% of spark.executor-memory
+3. 3-5 tasks (core) per executor
+4. Executor memory should exlude memory overhead (internal system processes) - max.(384 MB, 10% of spark.executor-memory)
 
+## Optimal Executor example
+**Cluster**:
+- 3 nodes (16 cores, 48 GB RAM)
+
+**After leaving out 1 core, 1 GB for Hadoop/Yarn/OS Daemons (per node)**:  
+15 cores, 47 GB RAM
+
+**For all cluster**:  
+15 * 3 = 45 cores, 47 GB * 3 = 141 GB
+
+**After leaving out 1 core, 1 GB RAM for Application Master, for cluster**:   
+44 cores, 140 GB  
+
+**Executors**:  
+4 cores per executor
+44 cores / 4 = 11 executors
+
+140 GB / 11 = 12 GB
+
+overhead = max(384 MB , 0.1 * 12 GB) = 1.2 GB
+executor memory = 11 GB
