@@ -47,3 +47,9 @@ Thin executors may increase network traffic because each executor has a small me
 - **Reduced Data Locality**  
 Data are spread accros multiple nodex - low data locality.
 
+## How to size an optimal Executor
+1. Leave out 1 core, 1 GB RAM for Hadoop/Yarn/OS Daemons
+2. Leave out 1 executor or 1 core, 1 GB RAM for Application Master
+3. 3-5 task per executor
+4. Executor memory should exlude memory overhead (internal system processes) - max. 10% of spark.executor-memory
+
